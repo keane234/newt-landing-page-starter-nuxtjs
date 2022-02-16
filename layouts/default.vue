@@ -1,19 +1,8 @@
 <template>
   <div class="Wrapper">
-    <Header
-      :title="title"
-      :icon="icon"
-      :articles="articles"
-      :categories="categories"
-    />
-    <main class="Main">
-      <Navigation
-        :current="currentArticle"
-        :articles="articles"
-        :categories="categories"
-      />
-      <Nuxt />
-    </main>
+    <Header :title="title" :icon="icon" />
+    <Nuxt />
+    <Footer :title="title" :icon="icon" />
     <Badge />
   </div>
 </template>
@@ -22,9 +11,9 @@
 import { mapGetters } from 'vuex'
 export default {
   computed: {
-    ...mapGetters(['app', 'categories', 'articles', 'currentArticle']),
+    ...mapGetters(['app']),
     title() {
-      return (this.app && this.app.name) || 'Docs'
+      return (this.app && this.app.name) || 'Landing page'
     },
     icon() {
       return (this.app && this.app.icon && this.app.icon.value) || '✏️'
@@ -37,7 +26,6 @@ export default {
 html {
   font-size: 62.5%;
   height: 100%;
-  scroll-padding-top: 110px;
 }
 body {
   margin: 0;
@@ -51,6 +39,10 @@ body {
   height: 100%;
   overflow-wrap: break-word;
 }
+#__nuxt,
+#__layout {
+  height: 100%;
+}
 a {
   color: #006cdc;
   text-decoration: underline;
@@ -63,20 +55,6 @@ a:hover {
 <style scoped>
 .Wrapper {
   width: 100%;
-  position: relative;
-}
-.Main {
-  max-width: 1024px;
-  margin: 0 auto;
-  align-items: flex-start;
-  min-height: 0;
-  display: block;
-  padding: 0;
-}
-@media (min-width: 600px) {
-  .Main {
-    display: flex;
-    padding: 50px 60px 0 60px;
-  }
+  overflow: hidden;
 }
 </style>

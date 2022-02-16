@@ -6,8 +6,7 @@ const config = {
   appUid: 'AppUID',
   token: 'CDN APIトークン',
   apiType: 'cdn',
-  articleModelUid: 'article',
-  categoryModelUid: 'category',
+  pageModelUid: 'landing-page',
 }
 
 export default {
@@ -20,7 +19,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Docs',
+    title: 'Landing page',
     htmlAttrs: {
       lang: 'en',
     },
@@ -67,16 +66,15 @@ export default {
       })
       const { items } = await client.getContents({
         appUid: config.appUid,
-        modelUid: config.articleModelUid,
+        modelUid: config.pageModelUid,
         query: {
           depth: 2,
-          order: ['sortOrder'],
-          select: ['title', 'slug'],
+          select: ['pageName', 'slug'],
           limit: 1000,
         },
       })
       items.forEach((item) =>
-        routes.push({ name: item.title, path: `/article/${item.slug}` })
+        routes.push({ name: item.pageName, path: `/${item.slug}` })
       )
     },
   },

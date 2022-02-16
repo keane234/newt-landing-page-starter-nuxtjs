@@ -1,16 +1,20 @@
 <template>
-  <Article v-if="currentArticle" :article="currentArticle" />
+  <div v-if="page">
+    <component
+      :is="section.type"
+      v-for="section in page.sections"
+      :key="section._id"
+      :data="section.data"
+    />
+  </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { toPlainText } from '../../utils/markdown'
 export default {
-  async asyncData({ $config, params, store }) {
+  async asyncData({ store, $config, params }) {
     await store.dispatch('fetchApp', $config)
-    await store.dispatch('fetchCategories', $config)
-    await store.dispatch('fetchArticles', $config)
-    await store.dispatch('fetchCurrentArticle', {
+    await store.dispatch('fetchPage', {
       ...$config,
       slug: params.slug,
     })
@@ -34,10 +38,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentArticle', 'app']),
+    ...mapGetters(['app', 'page']),
     meta() {
-      if (this.currentArticle && this.currentArticle.meta) {
-        return this.currentArticle.meta
+      if (this.page && this.page.meta) {
+        return this.page.meta
       }
       return null
     },
@@ -45,17 +49,14 @@ export default {
       if (this.meta && this.meta.title) {
         return this.meta.title
       }
-      if (this.currentArticle && this.currentArticle.title) {
-        return this.currentArticle.title
+      if (this.page && this.page.pageName) {
+        return this.page.pageName
       }
-      return this.app && (this.app.name || this.app.uid || 'Docs')
+      return this.app && (this.app.name || this.app.uid || 'Landing page')
     },
     description() {
       if (this.meta && this.meta.description) {
         return this.meta.description
-      }
-      if (this.currentArticle && this.currentArticle.body) {
-        return toPlainText(this.currentArticle.body).slice(0, 200)
       }
       return ''
     },
