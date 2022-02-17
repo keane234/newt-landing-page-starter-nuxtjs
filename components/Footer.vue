@@ -2,7 +2,17 @@
   <footer class="Footer">
     <div class="Footer_Inner">
       <NuxtLink to="/" class="SiteName">
-        <span v-if="icon" class="SiteName_Icon">{{ icon }}</span>
+        <span
+          v-if="icon && icon.type === 'emoji' && icon.value"
+          class="SiteName_Icon"
+          >{{ icon.value }}
+        </span>
+        <span
+          v-else-if="icon && icon.type === 'image' && icon.value"
+          class="SiteName_Icon"
+        >
+          <img :src="icon.value" />
+        </span>
         <div class="SiteName_Text">{{ title }}</div>
       </NuxtLink>
       <div class="Link">
@@ -20,13 +30,17 @@
 <script>
 export default {
   props: {
-    title: {
-      type: String,
-      default: 'Landing',
+    app: {
+      type: Object,
+      default: null,
     },
-    icon: {
-      type: String,
-      default: '🛬',
+  },
+  computed: {
+    title() {
+      return (this.app && (this.app.name || this.app.uid)) || 'Blog2'
+    },
+    icon() {
+      return (this.app && this.app.icon) || { type: 'emoji', value: '✌️' }
     },
   },
 }
@@ -65,6 +79,17 @@ export default {
 .SiteName_Icon {
   font-size: 1.6rem;
   margin: 0 8px -2px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.SiteName_Icon img {
+  width: 23px;
+  height: 23px;
+  object-fit: cover;
+  font-family: 'object-fit: cover'; /* IE11 */
+  border-radius: 4px;
 }
 .SiteName_Text {
   font-size: 1.4rem;
