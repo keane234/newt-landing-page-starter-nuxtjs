@@ -23,10 +23,10 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchApp({ commit }, { projectUid, token, apiType, appUid }) {
+  async fetchApp({ commit }, { spaceUid, token, apiType, appUid }) {
     try {
       const client = createClient({
-        projectUid,
+        spaceUid,
         token,
         apiType,
       })
@@ -40,11 +40,11 @@ export const actions = {
   },
   async fetchPage(
     { commit },
-    { projectUid, pageModelUid, token, apiType, appUid, slug }
+    { spaceUid, pageModelUid, token, apiType, appUid, slug }
   ) {
     try {
       const client = createClient({
-        projectUid,
+        spaceUid,
         token,
         apiType,
       })
