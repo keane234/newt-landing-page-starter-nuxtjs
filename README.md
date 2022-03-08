@@ -162,3 +162,7 @@ $ yarn start
 
 | フィールドID | フィールド名 | フィールドタイプ | オプション |
 | --- | --- | --- | --- |
+
+## License
+
+[MIT License](https://github.com/Newt-Inc/newt-landing-page-starter-nuxtjs/blob/main/LICENSE)
